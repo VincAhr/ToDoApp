@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-public class Todo {
+public class Todo implements Comparable<Todo> {
 
     private String id = UUID.randomUUID().toString();
     private String task = "";
@@ -18,4 +18,13 @@ public class Todo {
         this.task = task;
     }
 
+    @Override
+    public int compareTo(Todo todo) {
+        if (status == todo.getStatus()) {
+            return 0;
+        } else if (status == TodoStatus.Open) {
+            return -1;
+        }
+        return 1;
+    }
 }
