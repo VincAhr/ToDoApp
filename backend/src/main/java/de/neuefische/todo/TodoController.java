@@ -1,7 +1,6 @@
 package de.neuefische.todo;
 
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,10 +9,14 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/todos")
 @CrossOrigin
-@RequiredArgsConstructor
 public class TodoController {
 
     private final TodoService todoService;
+
+    public TodoController(TodoService todoService) {
+        this.todoService = todoService;
+    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

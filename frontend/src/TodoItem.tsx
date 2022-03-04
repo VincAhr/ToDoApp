@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Status, Todo } from "./model";
 import './TodoItem.css'
+
 interface TodoItemProps {
     todo: Todo
     onTodoDeletion: () => void;
@@ -11,13 +13,14 @@ export default function TodoItem(props: TodoItemProps) {
     const [descriptionToEdit, setDescriptionToEdit] = useState(props.todo.description);
     const [editMode, setEditMode] = useState(false);
 
+    const { t } = useTranslation();
+
     const deleteTodo = () => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todos/${props.todo.id}`, {
             method: 'DELETE'
         })
         .then(() => props.onTodoDeletion());
     };
-
     const fetchToEdit = (todo: Todo) => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todos/${props.todo.id}`, {
             method: 'PUT',
@@ -55,11 +58,11 @@ export default function TodoItem(props: TodoItemProps) {
                 editMode
                 ?
                 <div>
-                    <input type="text" value={taskToEdit} onChange={ev => setTaskToEdit(ev.target.value)} onKeyUp={ev => {if (ev.keyCode === 13) { editTodo(); }}} /> <input type="text" value={descriptionToEdit} onChange={ev => setDescriptionToEdit(ev.target.value)} onKeyUp={ev => {if (ev.keyCode === 13) { editTodo(); }}} /> <button onClick={editTodo}>Senden</button>
+                    <input type="text" value={taskToEdit} onChange={ev => setTaskToEdit(ev.target.value)} onKeyUp={ev => {if (ev.keyCode === 13) { editTodo(); }}} /> <input type="text" value={descriptionToEdit} onChange={ev => setDescriptionToEdit(ev.target.value)} onKeyUp={ev => {if (ev.keyCode === 13) { editTodo(); }}} /> <button onClick={editTodo}>{t('send')}</button>
                 </div>
                 :
                 <div>
-                    <span className={props.todo.status === Status.Done ? 'selected': ''} onClick={toggle}>{props.todo.task} - {props.todo.description}</span> <button onClick={() => setEditMode(true)}>Edit</button> <button onClick={deleteTodo}>Löschen</button>
+                    <span className={props.todo.status === Status.Done ? 'selected': ''} onClick={toggle}>{props.todo.task} - {props.todo.description}</span> <button onClick={() => setEditMode(true)}>{t('edit')}</button> <button onClick={deleteTodo}>{t('delete')}</button>
                 </div>
             }
         </div>
