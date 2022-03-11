@@ -55,7 +55,7 @@ export default function TodoItem(props: TodoItemProps) {
                 editMode
                 ?
                 <div>
-                    <input type="text" value={taskToEdit} onChange={ev => setTaskToEdit(ev.target.value)} onKeyUp={ev => {if (ev.keyCode === 13) { editTodo(); }}} /> <input type="text" value={descriptionToEdit} onChange={ev => setDescriptionToEdit(ev.target.value)} onKeyUp={ev => {if (ev.keyCode === 13) { editTodo(); }}} /> <button onClick={editTodo}>{t('send')}</button>
+                    <input type="text" value={taskToEdit} onChange={ev => setTaskToEdit(ev.target.value)} onKeyUp={ev => {if (ev.keyCode === 13) { editTodo(); }}} /> <input type="text" value={descriptionToEdit} onChange={ev => setDescriptionToEdit(ev.target.value)} onKeyUp={ev => {if (ev.keyCode === 13) { editTodo(); }}}/>  <button onClick={editTodo}>{t('send')}</button>
                 </div>
                 :
                 <div>

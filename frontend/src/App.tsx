@@ -1,4 +1,3 @@
-import {Outlet } from 'react-router-dom';
 import TodoList from './TodoList';
 
 function App() {
