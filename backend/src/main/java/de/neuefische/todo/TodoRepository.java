@@ -9,6 +9,5 @@ import java.util.List;
 @Repository
 public interface TodoRepository extends MongoRepository<Todo, String> {
 
-    List<Todo> findAllByTask(String Todo);
 
 }
