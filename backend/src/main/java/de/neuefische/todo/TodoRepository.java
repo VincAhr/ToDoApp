@@ -1,29 +1,14 @@
 package de.neuefische.todo;
 
-import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+import java.util.List;
+
 
 @Repository
-public class TodoRepository {
+public interface TodoRepository extends MongoRepository<Todo, String> {
 
-    private Map<String, Todo> todos = new HashMap<>();
+    List<Todo> findAllByTask(String Todo);
 
-    public void save(Todo todo) {
-        todos.put(todo.getId(), todo);
-    }
-
-    public Todo findById(String id) {
-        return todos.get(id);
-    }
-
-    public Collection<Todo> findAll() {
-        return todos.values();
-    }
-
-    public void delete(String id) {
-        todos.remove(id);
-    }
 }

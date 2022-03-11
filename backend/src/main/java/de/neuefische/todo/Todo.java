@@ -18,6 +18,20 @@ public class Todo implements Comparable<Todo> {
         this.task = task;
     }
 
+
+    public Todo patchTask(Todo todo) {
+        if (todo.getTask() != null) {
+            setTask(todo.getTask());
+        }
+
+        return this;
+    }
+
+    public Todo update(Todo todo) {
+        setTask(todo.getTask());
+        return this;
+    }
+
     @Override
     public int compareTo(Todo todo) {
         if (status == todo.getStatus()) {

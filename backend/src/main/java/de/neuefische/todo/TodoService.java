@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -12,29 +13,38 @@ public class TodoService {
 
     private final TodoRepository todoRepository;
 
-    public void createTodo(Todo todo) {
+
+    public Todo createTodo(Todo todo) {
         todoRepository.save(todo);
+        return todo;
     }
 
-    public Collection<Todo> getTodos() {
+    public Collection<Todo> getAllTodos() {
         return todoRepository.findAll();
     }
 
-    public Todo getTodo(String id) {
-        return todoRepository.findById(id) ;
+    public Optional<Todo> getTodo(String id) {
+        return todoRepository.findById(id);
     }
 
-    public void deleteTodo(String id) {
-        todoRepository.delete(id);
+    public Optional<Todo> deleteTodo(String id) {
+        return todoRepository.findById(id)
+                .map(j -> {
+                    todoRepository.deleteById(id);
+                    return j;
+                });
     }
 
-    public void changeTodo(String id, Todo changedTodo) {
-        Todo todo = todoRepository.findById(id);
+    public Optional<Todo> patchTodo(String id, Todo todo) {
+        return todoRepository.findById(id)
+                .map(j -> j.patchTask(todo))
+                .map(todoRepository::save);
+    }
 
-        todo.setTask(changedTodo.getTask());
-        todo.setStatus(changedTodo.getStatus());
-        todo.setDescription(changedTodo.getDescription());
-
-        todoRepository.save(todo);
+    public Optional<Todo> updateTask(String id, Todo todo) {
+        return todoRepository.findById(id)
+                .map(j -> j.update(todo))
+                .map(todoRepository::save);
     }
 }
+

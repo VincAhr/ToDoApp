@@ -8,7 +8,6 @@ import { useTranslation } from "react-i18next";
 
 export default function TodoList() {
     const [todos, setTodos] = useState([] as Array<Todo>);
-
     const { t } = useTranslation();
 
     const fetchAll = () => {
@@ -31,7 +30,7 @@ export default function TodoList() {
                 <TodoForm onTodoCreation={setTodos} />
             </div>
             <div>
-            <button onClick={deleteChecked}>{t('buttonLabelClear')}</button>
+            <button onClick={deleteChecked}>{t('Delete all Tasks')}</button>
             </div>
             <ul>
                 {todos.map(todo => <li key={todo.id}><TodoItem todo={todo} onTodoDeletion={fetchAll} onTodoChange={setTodos} /></li>)}
