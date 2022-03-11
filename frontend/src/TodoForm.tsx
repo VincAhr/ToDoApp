@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 
 interface TodoFromProps {
-    onTodoCreation: (todos: Array<Todo>) => void;
+    onTodoCreation: () => void;
 }
 export default function TodoForm(props: TodoFromProps) {
     const [task, setTask] = useState('');
@@ -31,7 +31,7 @@ export default function TodoForm(props: TodoFromProps) {
         .then((todosFromBackend: Array<Todo>) => {
             setTask('');
             setDescription('');
-            props.onTodoCreation(todosFromBackend);
+            props.onTodoCreation();
         });
     }
     return (

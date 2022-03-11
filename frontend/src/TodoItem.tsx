@@ -30,10 +30,7 @@ export default function TodoItem(props: TodoItemProps) {
             body: JSON.stringify(todo)
         })
         .then(response => response.json())
-        .then((todosFromBackend: Array<Todo>) => {
-            props.onTodoChange(todosFromBackend);
-            setEditMode(false);
-        });
+        .then(props.onTodoDeletion);
     }
     const editTodo = () => {
         fetchToEdit({

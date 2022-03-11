@@ -18,8 +18,7 @@ export default function TodoList() {
 
     const deleteChecked = () => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todos`, { method: 'DELETE' })
-            .then(response => response.json())
-            .then((todosFromBackend: Array<Todo>)  => setTodos(todosFromBackend));
+            .then(fetchAll)
     }
     useEffect(() => {
         fetchAll();
@@ -27,7 +26,7 @@ export default function TodoList() {
     return (
         <div className="todo-list">
             <div>
-                <TodoForm onTodoCreation={setTodos} />
+                <TodoForm onTodoCreation={fetchAll} />
             </div>
             <div>
             <button onClick={deleteChecked}>{t('Delete all Tasks')}</button>
