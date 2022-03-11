@@ -38,7 +38,7 @@ public class TodoController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Todo> patchJoke(@PathVariable String id, @RequestBody Todo todo) {
+    public ResponseEntity<Todo> patchTodo(@PathVariable String id, @RequestBody Todo todo) {
         return ResponseEntity.of(todoService.patchTodo(id, todo));
     }
 
