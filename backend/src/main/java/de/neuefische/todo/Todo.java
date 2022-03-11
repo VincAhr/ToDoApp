@@ -22,7 +22,6 @@ public class Todo implements Comparable<Todo> {
         if (todo.getTask() != null) {
             setTask(todo.getTask());
         }
-
         return this;
     }
 
