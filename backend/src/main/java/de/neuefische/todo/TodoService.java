@@ -35,11 +35,11 @@ public class TodoService {
                 });
     }
 
-    public Optional<Todo> patchTodo(String id, Todo todo) {
-        return todoRepository.findById(id)
-                .map(j -> j.patchTask(todo))
-                .map(todoRepository::save);
-    }
+//    public Optional<Todo> patchTodo(String id, Todo todo) {
+//        return todoRepository.findById(id)
+//                .map(j -> j.patchTask(todo))
+//                .map(todoRepository::save);
+//    }
 
     public Optional<Todo> updateTask(String id, Todo todo) {
         return todoRepository.findById(id)

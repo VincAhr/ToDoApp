@@ -37,14 +37,14 @@ public class TodoController {
         return ResponseEntity.of(todoService.updateTask(id, todo));
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Todo> patchTodo(@PathVariable String id, @RequestBody Todo todo) {
-        return ResponseEntity.of(todoService.patchTodo(id, todo));
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Todo> deleteTodo(@PathVariable String id) {
         return ResponseEntity.of(todoService.deleteTodo(id));
     }
+
+    //    @PatchMapping("/{id}")
+//    public ResponseEntity<Todo> patchTodo(@PathVariable String id, @RequestBody Todo todo) {
+//        return ResponseEntity.of(todoService.patchTodo(id, todo));
+//    }
 
 }
