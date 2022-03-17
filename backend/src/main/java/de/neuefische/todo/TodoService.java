@@ -13,38 +13,37 @@ public class TodoService {
 
     private final TodoRepository todoRepository;
 
-
-    public Todo createTodo(Todo todo) {
+    public void createTodo(Todo todo) {
         todoRepository.save(todo);
-        return todo;
     }
 
-    public Collection<Todo> getAllTodos() {
-        return todoRepository.findAll();
+    public Collection<Todo> getTodos() {
+        return todoRepository.findAll()
+                .stream()
+                .sorted()
+                .toList();
     }
 
-    public Optional<Todo> getTodo(String id) {
-        return todoRepository.findById(id);
+    public Todo getTodo(String id) {
+        return todoRepository.findById(id).orElse(null);
     }
 
-    public Optional<Todo> deleteTodo(String id) {
-        return todoRepository.findById(id)
-                .map(j -> {
-                    todoRepository.deleteById(id);
-                    return j;
-                });
+    public void deleteTodo(String id) {
+        todoRepository.deleteById(id);
     }
 
-//    public Optional<Todo> patchTodo(String id, Todo todo) {
-//        return todoRepository.findById(id)
-//                .map(j -> j.patchTask(todo))
-//                .map(todoRepository::save);
-//    }
+    public void changeTodo(String id, Todo changedTodo) {
+        Todo todo = todoRepository.findById(id).orElseThrow();
 
-    public Optional<Todo> updateTask(String id, Todo todo) {
-        return todoRepository.findById(id)
-                .map(j -> j.update(todo))
-                .map(todoRepository::save);
+        todo.setTask(changedTodo.getTask());
+        todo.setStatus(changedTodo.getStatus());
+        todo.setDescription(changedTodo.getDescription());
+
+        todoRepository.save(todo);
+    }
+
+    public void deleteAllTodos() {
+        todoRepository.deleteAll();
     }
 }
 

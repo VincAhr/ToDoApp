@@ -1,5 +1,5 @@
 {
-    "Delete all Tasks": "Alle abgehakten löschen",
+    "buttonLabelClear": "Alle löschen",
     "task": "Aufgabe",
     "description": "Beschreibung",
     "send": "Senden",
