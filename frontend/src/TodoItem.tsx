@@ -9,6 +9,7 @@ interface TodoItemProps {
     onTodoChange: (todos: Array<Todo>) => void;
 }
 export default function TodoItem(props: TodoItemProps) {
+
     const [taskToEdit, setTaskToEdit] = useState(props.todo.task);
     const [descriptionToEdit, setDescriptionToEdit] = useState(props.todo.description);
     const [editMode, setEditMode] = useState(false);
@@ -19,8 +20,9 @@ export default function TodoItem(props: TodoItemProps) {
         fetch(`${process.env.REACT_APP_BASE_URL}/todos/${props.todo.id}`, {
             method: 'DELETE'
         })
-        .then(() => props.onTodoDeletion());
+            .then(() => props.onTodoDeletion());
     };
+
     const fetchToEdit = (todo: Todo) => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todos/${props.todo.id}`, {
             method: 'PUT',
@@ -29,9 +31,13 @@ export default function TodoItem(props: TodoItemProps) {
             },
             body: JSON.stringify(todo)
         })
-        .then(response => response.json())
-        .then(props.onTodoDeletion);
+            .then(response => response.json())
+            .then((todosFromBackend: Array<Todo>) => {
+                props.onTodoChange(todosFromBackend);
+                setEditMode(false);
+            });
     }
+
     const editTodo = () => {
         fetchToEdit({
             id: props.todo.id,
@@ -40,6 +46,7 @@ export default function TodoItem(props: TodoItemProps) {
             status: props.todo.status
         });
     }
+
     const toggle = () => {
         const newStatus = props.todo.status === Status.Open ? Status.Done : Status.Open;
         fetchToEdit({
@@ -49,18 +56,32 @@ export default function TodoItem(props: TodoItemProps) {
             status: newStatus
         });
     }
+
     return (
         <div>
             {
                 editMode
-                ?
-                <div>
-                    <input type="text" value={taskToEdit} onChange={ev => setTaskToEdit(ev.target.value)} onKeyUp={ev => {if (ev.keyCode === 13) { editTodo(); }}} /> <input type="text" value={descriptionToEdit} onChange={ev => setDescriptionToEdit(ev.target.value)} onKeyUp={ev => {if (ev.keyCode === 13) { editTodo(); }}}/>  <button onClick={editTodo}>{t('send')}</button>
-                </div>
-                :
-                <div>
-                    <span className={props.todo.status === Status.Done ? 'selected': ''} onClick={toggle}>{props.todo.task} - {props.todo.description}</span> <button onClick={() => setEditMode(true)}>{t('edit')}</button> <button onClick={deleteTodo}>{t('delete')}</button>
-                </div>
+                    ?
+                    <div>
+                        <input type="text"
+                               value={taskToEdit}
+                               onChange={ev => setTaskToEdit(ev.target.value)}
+                               onKeyUp={ev => {if (ev.keyCode === 13) { editTodo(); }}} />
+                        <input type="text"
+                               value={descriptionToEdit}
+                               onChange={ev => setDescriptionToEdit(ev.target.value)}
+                               onKeyUp={ev => {if (ev.keyCode === 13) { editTodo(); }}} />
+                        <button onClick={editTodo}>{t('send')}</button>
+                    </div>
+                    :
+                    <div>
+                    <span className={props.todo.status === Status.Done ? 'selected': ''}
+                          onClick={toggle}>
+                        {props.todo.task} - {props.todo.description}
+                    </span>
+                        <button onClick={() => setEditMode(true)}>Edit</button>
+                        <button onClick={deleteTodo}>{t('delete')}</button>
+                    </div>
             }
         </div>
     )

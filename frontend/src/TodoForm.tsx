@@ -5,12 +5,15 @@ import { useTranslation } from "react-i18next";
 
 
 interface TodoFromProps {
-    onTodoCreation: () => void;
+    onTodoCreation: (todos: Array<Todo>) => void;
 }
+
 export default function TodoForm(props: TodoFromProps) {
+
     const [task, setTask] = useState('');
     const [description, setDescription] = useState('');
-    const {t} = useTranslation();
+
+    const { t } = useTranslation();
 
     const addTask = () => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todos`, {
@@ -23,17 +26,14 @@ export default function TodoForm(props: TodoFromProps) {
                 description: description
             })
         })
-        .then(response => {
-            if (response.status === 200){
-             return response.json()}
-            throw new Error('Statuscode:' + response.status)
-            })
-        .then((todosFromBackend: Array<Todo>) => {
-            setTask('');
-            setDescription('');
-            props.onTodoCreation();
-        });
+            .then(response => response.json())
+            .then((todosFromBackend: Array<Todo>) => {
+                setTask('');
+                setDescription('');
+                props.onTodoCreation(todosFromBackend);
+            });
     }
+
     return (
         <div>
             <input type="text" placeholder={t('task')} value={task} onChange={ev => setTask(ev.target.value)} />
@@ -41,4 +41,4 @@ export default function TodoForm(props: TodoFromProps) {
             <button data-testid="add-button" onClick={addTask} className="send-button">{t('send')}</button>
         </div>
     )
-} 
+}

@@ -2,6 +2,7 @@ package de.neuefische.todo;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,36 +16,39 @@ public class TodoController {
 
     private final TodoService todoService;
 
-
     @PostMapping
-    public Todo createTodo(@RequestBody Todo todo) {
-        return todoService.createTodo(todo);
-
+    @ResponseStatus(HttpStatus.CREATED)
+    public Collection<Todo> createTodo(@RequestBody Todo todo) {
+        todoService.createTodo(todo);
+        return todoService.getTodos();
     }
 
     @GetMapping
-    public Collection<Todo> getAllTodos() {
-        return todoService.getAllTodos();
+    public Collection<Todo> getTodos() {
+        return todoService.getTodos();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Todo> getTodo(@PathVariable String id) {
-        return ResponseEntity.of(todoService.getTodo(id));
+    public Todo getTodo(@PathVariable String id) {
+        return todoService.getTodo(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Todo> changeTodo(@PathVariable String id, @RequestBody Todo todo) {
-        return ResponseEntity.of(todoService.updateTask(id, todo));
+    public Collection<Todo> changeTodo(@PathVariable String id, @RequestBody Todo todo) {
+        todoService.changeTodo(id, todo);
+        return todoService.getTodos();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Todo> deleteTodo(@PathVariable String id) {
-        return ResponseEntity.of(todoService.deleteTodo(id));
+    public void deleteTodo(@PathVariable String id) {
+        todoService.deleteTodo(id);
     }
 
-    //    @PatchMapping("/{id}")
-//    public ResponseEntity<Todo> patchTodo(@PathVariable String id, @RequestBody Todo todo) {
-//        return ResponseEntity.of(todoService.patchTodo(id, todo));
-//    }
+    @DeleteMapping()
+    public Collection<Todo> deleteTodo() {
+        todoService.deleteAllTodos();
+        return todoService.getTodos();
+    }
+
 
 }

@@ -1,5 +1,5 @@
 {
-    "Delete all Tasks": "Delete all checked items",
+    "buttonLabelClear": "Delete all items",
     "task": "Task",
     "description": "Description",
     "send": "Send",
