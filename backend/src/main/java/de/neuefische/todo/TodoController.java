@@ -10,7 +10,6 @@ import java.util.Collection;
 
 @RestController
 @RequestMapping("/todos")
-@CrossOrigin
 @RequiredArgsConstructor
 public class TodoController {
 

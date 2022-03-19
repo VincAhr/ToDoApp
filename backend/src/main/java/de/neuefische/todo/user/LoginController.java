@@ -22,6 +22,7 @@ import java.util.Map;
 @RequestMapping("/api")
 public class LoginController {
 
+    
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
@@ -30,11 +31,11 @@ public class LoginController {
     @PostMapping("/auth/login")
     public String login(@RequestBody LoginData loginData) {
         try {
-            Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginData.getUserName(), loginData.getPassword()));
+            Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginData.getUsername(), loginData.getPassword()));
 
             Map<String, Object> claims = new HashMap<>();
             claims.put("roles", getRoles(auth));
-            return jwtService.createToken(claims, loginData.getUserName());
+            return jwtService.createToken(claims, loginData.getUsername());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid credentials");
         }
@@ -45,10 +46,6 @@ public class LoginController {
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
-
     }
-
-
-
 }
 

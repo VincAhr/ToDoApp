@@ -15,10 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MongoUserDetailsService implements UserDetailsService {
 
-
-
     private final UserService userService;
-
 
 
     @Override
